@@ -1,11 +1,11 @@
-import re
+import re, os
 
 class regex_checker():
     def __init__(self, regexnya):
         if regexnya == '':
             regexnya = '(a+b)*aa(a+b)*bb(a+b)*+(a+b)*bb(a+b)*aa(a+b)*'
         regexnya = regexnya.replace('+', '|')
-        regexnya = regexnya.replace(' ', '')
+        self.regexnya = regexnya.replace(' ', '')
         self.checker = re.compile(regexnya)
 
     def cek(self, stringnya):
@@ -54,10 +54,19 @@ class regex_checker():
         }
         return state_diagram[current][inputnya]
 
+    def diagram_print(self):
+        file = open('diagram.unknown', 'r')
+        gambar = file.read()
+        file.close()
+        print gambar
+
 if __name__ == '__main__':
     reg = raw_input("Masukkan RE: ")
     regex = regex_checker(reg)
     while True:
+        os.system('cls')
+        print 'Regex: ' + regex.regexnya
+        regex.diagram_print()
         inputan = raw_input("Masukkan string: ")
         if inputan.lower() == "exit":
             exit()
@@ -73,3 +82,4 @@ if __name__ == '__main__':
                 state = regex.state(state, b)
                 total_state += state + ' '
             print total_state
+        dump = raw_input('Press any key to continue')
